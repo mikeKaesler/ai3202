@@ -12,3 +12,11 @@ other corresponds to the straight line distance heuristic
 sqrt((end.x - node.x)**2 + (end.y - node.y))
 
 both heuristics should come up with the same result
+
+the files to use are:
+Assignment2.py
+Manhattan.py
+Other.py
+World1.txt
+World2.txt
+the others are extraneous
