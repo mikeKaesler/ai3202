@@ -1,0 +1,32 @@
+#mike kaesler
+#assignment5
+
+import sys
+import math
+import numpy
+
+world = sys.argv[1]  #getting the world from command line
+epsilon = sys.argv[2] #getting the epsilon value from command line
+gamma = 0.9 # setting the discount factor at 0.9
+
+
+#nodes for the graph
+class Graph(object):
+	def __init__(self, value, x, y):
+		self.value = value #the value of the node
+		self.x = x #the x location of node
+		self.y = y #the y location of node
+		self.high = False
+		self.reward = 0 #the reward based off the value
+		self.end = False #if the node goes off the graph
+		self.parent = None #points to parent of current node
+		
+# in the world, its a 2d array, 0 is an open square, 1 is a mountain
+# 2 is a wall, 3 is a snake, 4 is a barn
+
+#rewards, cant move into a wall (2)
+# mountains (1) give reward -1
+# snakes (3) give reward -2
+# barn (4) give reward +1
+# the end (apple) give reward +50
+	
