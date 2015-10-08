@@ -32,27 +32,21 @@ class Graph_node(object):
 		self.x = x
 		self.y = y
 		self.value = value
-		
 		if (value == 0): #open square, reward 0
 			self.reward = 0
 			self.utility = 0
-		
 		elif (value == 1): #mountain, reward = -1
 			self.reward = -1
 			self.utility = -1
-		
 		elif (value == 2): #wall, cant pass through wall's at all
 			self.reward = None
 			self.utility = None
-		
 		elif (value == 3): #snakes, reward = -2
 			self.reward = -2
 			self.utility = -2
-		
 		elif (value == 4): #barn, reward  = +1
 			self.reward = 1
 			self.utility = 1
-			
 		elif (value == 50): #the end goal, win once reaching here
 			self.reward = 50
 			self.utility = 50
@@ -89,15 +83,15 @@ class MDP(object):
 	#on unviable nodes, again must implement at later date    CHANGED*******
 	def get_utility(self, x, y):
 		if (x <0):
-			return -999999
+			return -999999999
 		elif (y < 0):
-			return -999999
+			return -999999999
 		elif (x >= len(self.world_list)):
-			return -999999
+			return -999999999
 		elif (y >= len(self.world_list[0])):
-			return -999999
+			return -999999999
 		elif (self.world_list[x][y].value == 2):
-			return -999999
+			return -999999999
 		else:	
 			return world_list[x][y].utility
 	
@@ -105,7 +99,7 @@ class MDP(object):
 		test_val = self.epsilon * (1-self.gamma)/self.gamma 
 		delta = 100 #hard coded, not inputed
 		#triple while loop, first keeps looping while delta is bigger than test
-		# and the second two are to navigate x,y in the 2d array/graph
+		# and the second two are to navigate x,y in the 2d array/graph  CHANGED
 
 		while (delta >= test_val):
 			delta = -100
@@ -117,9 +111,6 @@ class MDP(object):
 						below_node = self.get_position(x, y-1)
 						right_node = self.get_position(x+1, y)
 						left_node = self.get_position(x-1,y)
-						
-						
-						
 						if (right_node == None):
 							right_node = current
 						if (left_node == None):
@@ -128,7 +119,6 @@ class MDP(object):
 							above_node == current
 						if (below_node == None):
 							below_node == current
-						
 						#add adjacent utilities to a list of "expected utilities"
 						expected_utility = []
 						
