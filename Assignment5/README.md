@@ -1,0 +1,1 @@
+in command line, type ' python Assignment5.py World1MDP.txt (your epsilon here)
