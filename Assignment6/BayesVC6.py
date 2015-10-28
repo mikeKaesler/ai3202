@@ -96,12 +96,56 @@ def calcMarginal(a):
 		return marginal
 	if (a == "~d"):
 		marginal = 1 - calcMarginal("D")
-	
 
-#def calcConditional(a, n):
-	#calc conditional
-	#return 0
+
+def calcConditional(n):
+	p = n.find("/")
+	#print "left side", n[:p]
+	#print "right side", n[p+1:]
 	
+	#left side of "/", can only ever be one argument
+	left = n[:p]
+	#right side of "/", can either be one or two arguments
+	right = n[p+1:]
+	
+	if len(right) == 1:
+		#predictive cases    THIS WORKS!!!!!!!!!!11111 (at least for first one)
+		if (left == "x"): # x = pos 
+			if (right[0] == "s"): # given smoker = true     P(X=POS|S=TRUE)
+				conditional = ((Bayes.node["X"]["xc"]*Bayes.node["C"]["ps"]*calcMarginal("S")*
+				calcMarginal("P"))+(Bayes.node["X"]["xc"]*Bayes.node["C"]["~ps"]*calcMarginal("S")
+				*calcMarginal("~p")) + (Bayes.node["X"]["x~c"]*(1 - Bayes.node["C"]["~ps"])*calcMarginal("~p")
+				*calcMarginal("S")) + (Bayes.node["X"]["x~c"]*(1- Bayes.node["C"]["ps"])*calcMarginal("P")*
+				calcMarginal("S")))/((Bayes.node["C"]["ps"]*calcMarginal("P")*calcMarginal("S")) + (Bayes.node["C"]["~ps"]*calcMarginal("S")
+				*calcMarginal("~p")) + ((1- Bayes.node["C"]["ps"])*calcMarginal("P")*
+				calcMarginal("S")) + ((1 - Bayes.node["C"]["~ps"])*calcMarginal("~p")
+				*calcMarginal("S")))
+				return conditional
+	
+	if len(right) == 2:
+		#intercausal cases
+		if (left == "x"):   #prob of x/c=t and s=t THIS ONE WORKS!!!!!!!!!!!!!!!!!!!!!!
+			if (right[0] == "c" and right[1]== "s"):
+				conditional = Bayes.node["X"]["xc"] ## same as, x=t/c=t because c "explains away" s=t
+				return conditional
+	
+	
+#def calcJoint(n):
+
+#-jpsc 
+
+
+#note the pollution given the D case, is similar to one of the alarm cases
+#also note, the joint probabilities gives out many different outputs
+#i.e. -jPSC gives like 8 outputs
+# P(psc)
+# P(ps~c)
+# P(p~sc) etc. etc. 8 cases, b/c 2^3
+# also for joint, need like -jpsc, but that will only give one output
+# and also need -jps (1 output) and like -jp~c, so need esentially every combination of the outputs
+#but since the capital letter ones will need to calculate each and every option, can just reuse
+#the answers there
+#also need to do -jPS and like -jSC etc 
 
 def main():
 	try:
@@ -117,11 +161,13 @@ def main():
 			marginal = calcMarginal(a)
 			print(marginal)
 		elif o in ("-g"):
-			p = a.find("|")
-			#do conditional shit
+			#p = a.find("/")
+			#conditional = 
+			conditional = calcConditional(a[:])
+			print(conditional)
 		elif o in ("-j"):
 			return 
-			#do joint shit
+			#do joint 
         #else:             for some reason, still triggers this else anyway, so dont mess up input
 			#assert False, "unhandled option"
 	
